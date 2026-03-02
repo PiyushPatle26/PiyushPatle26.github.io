@@ -22,7 +22,7 @@ export default function Home() {
                             I'm <strong className="text-text font-normal">Piyush</strong> — 3rd year Electrical at VJTI Mumbai.
                             I spend most of my time writing C, poking around the Linux kernel,
                             and occasionally having things published in the <strong className="text-text font-normal">ACM Digital Library</strong>.
-                            Currently in the <strong className="text-text font-normal">LFX Bug Fixing program</strong> at LKMP, working on a BELA codec driver for BeagleBoard.
+                            Currently in the <strong className="text-text font-normal">LFX Bug Fixing program</strong> at LKMP, also working on a BELA codec driver for BeagleBoard.
                             Before that, research intern at <strong className="text-text font-normal">CDAC Pune</strong> — learned a lot about VFS internals, wrote a paper, survived.
                         </p>
                         <div className="mt-5 flex flex-wrap gap-2 opacity-0 translate-y-4 animate-[fadeUp_0.6s_1.6s_forwards] max-sm:hidden">
