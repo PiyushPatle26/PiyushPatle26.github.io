@@ -20,10 +20,10 @@ export default function Home() {
                         </h1>
                         <p className="mt-7 max-w-[480px] text-base leading-[1.85] text-muted opacity-0 translate-y-4 animate-[fadeUp_0.6s_1.5s_forwards]">
                             I'm <strong className="text-text font-normal">Piyush</strong> — 3rd year Electrical at VJTI Mumbai.
-                            I spend most of my time writing C nobody else wants to debug, poking around the Linux kernel,
-                            and occasionally shipping things that end up in the <strong className="text-text font-normal">ACM Digital Library</strong>.
-                            Currently an LFX mentee at the Kernel Mentorship Program.
-                            Before that, research intern at <strong className="text-text font-normal">CDAC Pune</strong> — ported a filesystem, wrote a paper, survived.
+                            I spend most of my time writing C, poking around the Linux kernel,
+                            and occasionally having things published in the <strong className="text-text font-normal">ACM Digital Library</strong>.
+                            Currently in the <strong className="text-text font-normal">LFX Bug Fixing program</strong> at LKMP, working on a BELA codec driver for BeagleBoard.
+                            Before that, research intern at <strong className="text-text font-normal">CDAC Pune</strong> — learned a lot about VFS internals, wrote a paper, survived.
                         </p>
                         <div className="mt-5 flex flex-wrap gap-2 opacity-0 translate-y-4 animate-[fadeUp_0.6s_1.6s_forwards] max-sm:hidden">
                             <span className="text-[10px] tracking-[0.18em] uppercase py-1 px-3 border border-amber-dim text-amber">LFX'26 @LKMP</span>
@@ -77,8 +77,8 @@ export default function Home() {
                     <FadeIn>
                         <div className="text-base leading-[1.95] text-muted flex flex-col gap-[18px]">
                             <p className="m-0">B.Tech Electrical at <strong className="text-text font-normal">VJTI Mumbai</strong>, third year. Somewhere in first year I opened a datasheet, read the words "memory-mapped I/O", and that was pretty much it for me.</p>
-                            <p className="m-0">Last year I was at <strong className="text-text font-normal">CDAC Pune</strong> as a research intern. Four months deep inside VFS and ext4 porting Lustre to Linux 6.12 on a RISC-V cluster. We fixed bugs, shipped real patches, wrote a paper, submitted it to HPC Asia 2026, and it got accepted and published in the <strong className="text-text font-normal">ACM Digital Library</strong>. Still slightly surprised by that last part.</p>
-                            <p className="m-0">Right now I'm an <strong className="text-text font-normal">LFX Mentee '26</strong> at the Linux Kernel Mentorship Program, working on a codec driver for BeagleBoard's BELA platform in the ALSA subsystem. Also did Unikraft Summer of Code — a summer inside a unikernel debugger, learning things that can't be unlearned.</p>
+                            <p className="m-0">Last year I was a research intern at <strong className="text-text font-normal">CDAC Pune</strong>. Two months working on Lustre — reading VFS internals, understanding how a parallel filesystem hooks into the kernel, doing performance testing on a RISC-V cluster. We wrote up the work and it got into HPC Asia 2026, published in the <strong className="text-text font-normal">ACM Digital Library</strong>.</p>
+                            <p className="m-0">Right now I'm in the <strong className="text-text font-normal">LFX Bug Fixing program</strong> at the Linux Kernel Mentorship Program. I'm also working on a codec driver for <strong className="text-text font-normal">BeagleBoard's BELA</strong> platform in the ALSA subsystem — upstream kernel driver work. Also did Unikraft Summer of Code — a summer inside a unikernel debugger, learning things that can't be unlearned.</p>
                             <p className="m-0">I review PRs and mentor juniors on embedded projects at VJTI. GDB is my debugger. Terminal is my IDE. <strong className="text-text font-normal">The oscilloscope never lies.</strong></p>
                         </div>
                     </FadeIn>
