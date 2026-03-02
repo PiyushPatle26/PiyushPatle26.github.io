@@ -29,7 +29,7 @@ function ScrollToHash() {
 
 function App() {
     return (
-        <Router>
+        <Router basename="/portfolio_website">
             <ScrollToHash />
             <Loader />
             <Cursor />

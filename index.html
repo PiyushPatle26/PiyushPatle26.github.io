@@ -9,6 +9,21 @@
     <title>Piyush Patle — Embedded & Kernel Enthusiast</title>
     <meta name="description"
         content="Piyush Patle — Embedded & Kernel Enthusiast. LFX'26 @LKMP, Ex-intern @CDAC, VJTI'27 Electrical. Linux kernel, device drivers, RTOS, ARM, RISC-V." />
+    <script>
+        // SPA redirect: decode the URL encoded by 404.html back to a proper path
+        (function (l) {
+            if (l.search[1] === '/') {
+                var decoded = l.search.slice(1).split('&').map(function (s) {
+                    return s.replace(/~and~/g, '&')
+                });
+                window.history.replaceState(null, null,
+                    l.pathname.slice(0, -1) + decoded[0] +
+                    (decoded[1] ? '&' + decoded[1].slice(1) : '') +
+                    l.hash
+                );
+            }
+        }(window.location))
+    </script>
 </head>
 
 <body>
