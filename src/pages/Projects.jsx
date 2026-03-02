@@ -44,9 +44,9 @@ const projects = [
         id: '03',
         categories: ['kernel', 'opensource'],
         catText: '// Linux Kernel · ALSA · BeagleBoard.org',
-        badge: 'Ongoing — LFX Mentorship',
+        badge: 'Ongoing — Open Source',
         title: 'ALSA Codec Driver — BeagleBoard BELA',
-        summary: "Adding a codec driver for BeagleBoard's BELA audio platform to the Linux ALSA subsystem — currently ongoing as part of the LFX Kernel Mentorship Program. Upstream kernel driver work: ASoC framework, DAPM widgets, device tree bindings, audio codec integration.",
+        summary: "Adding a codec driver for BeagleBoard's BELA audio platform to the Linux ALSA subsystem — currently ongoing project. Upstream kernel driver work: ASoC framework, DAPM widgets, device tree bindings, audio codec integration.",
         body: (
             <>
                 <p className="m-0 mb-[18px]">BeagleBoard's BELA is a real-time audio platform used in music and research. It needed a proper upstream Linux codec driver — something written to the quality bar the kernel mailing list actually accepts. That meant working through the ASoC framework: codec registration, DAPM power widget graphs, mixer controls, and device tree bindings for hardware description.</p>
