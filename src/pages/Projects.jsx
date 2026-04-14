@@ -24,23 +24,6 @@ const projects = [
         ]
     },
     {
-        id: '02',
-        categories: ['kernel'],
-        catText: '// Linux Kernel · Debug Tools',
-        title: 'Boot Autopsy — Kernel Flight Recorder',
-        summary: 'A Linux kernel module that keeps a ring buffer of the last 200 kernel events and dumps everything automatically on panic. Built because boot hangs are miserable to debug — no dmesg, no SSH, no idea what happened.',
-        body: (
-            <>
-                <p className="m-0 mb-[18px]">Traditional boot hang debugging means adding printk statements, rebuilding the kernel, rebooting, and hoping you guessed the right location. That can take hours. Boot Autopsy sidesteps all of that.</p>
-                <p className="m-0">It maintains a fixed-size <strong className="text-text font-normal">ring buffer</strong> in kernel memory. Events get written to it continuously. When the kernel panics, a <strong className="text-text font-normal">panic notifier</strong> fires and dumps the last 200 events to console before the system halts. You get a clean timeline of what led to the crash — no rebuilds needed, no guessing about where to add printks.</p>
-            </>
-        ),
-        tags: ['C', 'Linux Kernel', 'Ring Buffer', 'Panic Notifier', 'GDB', 'QEMU'],
-        links: [
-            { text: '↗ Source Code (GitHub)', href: 'https://github.com/PiyushPatle26/boot_autopsy', type: 'primary' }
-        ]
-    },
-    {
         id: '03',
         categories: ['kernel', 'opensource'],
         catText: '// Linux Kernel · ALSA · BeagleBoard.org',
@@ -59,28 +42,8 @@ const projects = [
         ]
     },
     {
-        id: '04',
-        categories: ['kernel', 'opensource'],
-        catText: '// Unikernel · Open Source · Unikraft SoC',
-        badge: 'SoC Alumnus',
-        title: 'Unikraft Summer of Code',
-        summary: 'Completed Unikraft Summer of Code — learning kernel debugging in a unikernel context (GDB, objdump, crash logs) and contributing directly to the Unikraft codebase. Also submitted a GSoC proposal on Unikraft debug tooling.',
-        body: (
-            <>
-                <p className="m-0 mb-[18px]">Unikraft is a modular unikernel toolkit — no user/kernel space split, no process model, single binary that boots in milliseconds. During SoC I worked on debugging tooling: setting up GDB over QEMU's gdbserver for unikernel images, reading crash logs and objdump output, and contributing code directly to Unikraft's codebase.</p>
-                <p className="m-0">The interesting part was realizing how different debugging a unikernel is. You don't have /proc, you can't attach a debugger to a "process", and the crash often takes the entire system with it. You learn to be more deliberate about what you're doing and why.</p>
-            </>
-        ),
-        tags: ['C', 'Unikernel', 'GDB', 'objdump', 'Unikraft', 'QEMU'],
-        links: [
-            { text: '↗ GitHub Profile', href: 'https://github.com/PiyushPatle26', type: 'ghost' }
-        ]
-    },
-    {
         id: '05',
         categories: ['arm'],
-        catText: '// Embedded · Competition · SIH 2025',
-        title: 'Smart India Hackathon 2025',
         catText: '// Computer Vision · ML · SIH 2025',
         title: 'Smart India Hackathon 2025 — Sand Grain Analysis',
         summary: 'A sand grain characterisation system built for SIH 2025. Given a photo of a sand sample with an ArUco calibration marker, it detects individual grains, measures sizes in mm, computes D10/D50/D90 and sedimentological statistics, predicts beach type via ML, and presents results through a React web interface.',
@@ -94,23 +57,6 @@ const projects = [
         tags: ['Python', 'OpenCV', 'ML', 'React', 'ArUco', 'Computer Vision', 'Sedimentology'],
         links: [
             { text: '↗ Source Code (GitHub)', href: 'https://github.com/PiyushPatle26/SIH-2025', type: 'primary' }
-        ]
-    },
-    {
-        id: '06',
-        categories: ['arm'],
-        catText: '// STM32 · Embedded · Mentor',
-        title: 'Handheld Gaming Console — Mentored',
-        summary: 'Mentored a junior team at VJTI building a handheld gaming console on STM32 using the HAL framework — LCD display, IMU, joystick, DFPlayer Mini audio, and game logic. My role was reviewing code, guiding architecture decisions, and debugging the harder hardware issues.',
-        body: (
-            <>
-                <p className="m-0 mb-[18px]">The team built the console from scratch on an STM32 microcontroller using STM32 HAL — driving an LCD, reading joystick and button input, integrating an IMU, and running game logic on constrained hardware. They also used a DFPlayer Mini for audio and designed the power system.</p>
-                <p className="m-0">My role was mentoring: reviewing PRs, discussing architecture, helping debug the gnarlier hardware issues, and teaching real-time systems basics. I wasn't writing the code — they were. Explaining something you know well to someone who doesn't is one of the better ways to find out you don't actually know it as well as you thought.</p>
-            </>
-        ),
-        tags: ['C', 'STM32', 'STM32 HAL', 'LCD', 'IMU', 'Embedded', 'Mentoring'],
-        links: [
-            { text: '↗ Source Code (GitHub)', href: 'https://github.com/PiyushPatle26/Handheld-Gaming-Console', type: 'primary' }
         ]
     },
     {

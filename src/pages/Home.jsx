@@ -20,10 +20,9 @@ export default function Home() {
                         </h1>
                         <p className="mt-7 max-w-[480px] text-base leading-[1.85] text-muted opacity-0 translate-y-4 animate-[fadeUp_0.6s_1.5s_forwards]">
                             I'm <strong className="text-text font-normal">Piyush</strong> — 3rd year Electrical at VJTI Mumbai.
-                            I spend most of my time writing C, poking around the Linux kernel,
-                            and occasionally having things published in the <strong className="text-text font-normal">ACM Digital Library</strong>.
-                            Currently in the <strong className="text-text font-normal">LFX Bug Fixing program</strong> at LKMP, also working on a BELA codec driver for BeagleBoard.
-                            Before that, research intern at <strong className="text-text font-normal">CDAC Pune</strong> — learned a lot about VFS internals, wrote a paper, survived.
+                            I primarily work in C and Linux kernel internals.
+                            I am currently part of the <strong className="text-text font-normal">LFX Bug Fixing Program</strong> at LKMP and working on a BELA codec driver for BeagleBoard.
+                            Previously, I was a research intern at <strong className="text-text font-normal">CDAC Pune</strong>, where I worked on VFS-related Lustre porting and co-authored one paper published in the <strong className="text-text font-normal">ACM Digital Library</strong>.
                         </p>
                         <div className="mt-5 flex flex-wrap gap-2 opacity-0 translate-y-4 animate-[fadeUp_0.6s_1.6s_forwards] max-sm:hidden">
                             <span className="text-[10px] tracking-[0.18em] uppercase py-1 px-3 border border-amber-dim text-amber">LFX'26 @LKMP</span>
@@ -76,10 +75,10 @@ export default function Home() {
                     </FadeIn>
                     <FadeIn>
                         <div className="text-base leading-[1.95] text-muted flex flex-col gap-[18px]">
-                            <p className="m-0">B.Tech Electrical at <strong className="text-text font-normal">VJTI Mumbai</strong>, third year. Somewhere in first year I opened a datasheet, read the words "memory-mapped I/O", and that was pretty much it for me.</p>
-                            <p className="m-0">Last year I was a research intern at <strong className="text-text font-normal">CDAC Pune</strong>. Two months working on Lustre — reading VFS internals, understanding how a parallel filesystem hooks into the kernel, doing performance testing on a RISC-V cluster. We wrote up the work and it got into HPC Asia 2026, published in the <strong className="text-text font-normal">ACM Digital Library</strong>.</p>
-                            <p className="m-0">Right now I'm in the <strong className="text-text font-normal">LFX Bug Fixing program</strong> at the Linux Kernel Mentorship Program. I'm also working on a codec driver for <strong className="text-text font-normal">BeagleBoard's BELA</strong> platform in the ALSA subsystem — upstream kernel driver work. Also did Unikraft Summer of Code — a summer inside a unikernel debugger, learning things that can't be unlearned.</p>
-                            <p className="m-0">I review PRs and mentor juniors on embedded projects at VJTI. GDB is my debugger. Terminal is my IDE. <strong className="text-text font-normal">The oscilloscope never lies.</strong></p>
+                            <p className="m-0">I am a third-year B.Tech Electrical student at <strong className="text-text font-normal">VJTI Mumbai</strong>, with primary interest in Linux kernel and embedded systems work.</p>
+                            <p className="m-0">As a research intern at <strong className="text-text font-normal">CDAC Pune</strong>, I worked on Lustre porting tasks involving VFS internals and validation on a RISC-V cluster. This work contributed to one paper presented at HPC Asia 2026 and published in the <strong className="text-text font-normal">ACM Digital Library</strong>.</p>
+                            <p className="m-0">I am currently part of the <strong className="text-text font-normal">LFX Bug Fixing Program</strong> under LKMP and working on a codec driver for <strong className="text-text font-normal">BeagleBoard BELA</strong> in the ALSA subsystem.</p>
+                            <p className="m-0">I also review contributions and mentor juniors on embedded projects at VJTI, with a focus on debugging discipline and maintainable firmware design.</p>
                         </div>
                     </FadeIn>
                 </div>
@@ -87,12 +86,12 @@ export default function Home() {
                 <FadeIn>
                     <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-[1px] bg-border mt-16">
                         {[
-                            { num: '01', name: 'Linux Kernel', desc: 'VFS, ext4, ALSA. Ported filesystems, added codec drivers, debugged panics at 2 AM. Read more kernel source than documentation. The docs lie anyway.' },
-                            { num: '02', name: 'C / C++ / Python', desc: "C first, always. C++ when needed, Python when I need to feel productive fast. Segfaults don't scare me anymore — they just mean I'm close to whatever broke." },
-                            { num: '03', name: 'ARM & Embedded', desc: 'STM32, ESP32, BeagleBone, Raspberry Pi. Written startup assembly by hand. Wrestled with linker scripts. Convinced peripherals to cooperate at 3 AM. Normal stuff.' },
-                            { num: '04', name: 'Open Source', desc: 'BeagleBoard.org contributor, Unikraft SoC alumnus. Sent patches to mailing lists and survived the review process. Builds character. Highly recommend.' },
-                            { num: '05', name: 'RTOS & Firmware', desc: 'FreeRTOS, bare-metal, ISRs, task scheduling. Hit a real priority inversion bug in production once. Watchdog reset four times before I figured it out. I understand mutex types now.' },
-                            { num: '06', name: 'GDB / Debug', desc: "GDB over JTAG, OpenOCD, objdump, crash logs. If printf is your primary debug strategy, we need to talk. Hardware always tells you what's wrong — you just need the right question." }
+                            { num: '01', name: 'Linux Kernel', desc: 'Experience with VFS, ext4, and ALSA-focused development, including filesystem porting and codec driver work.' },
+                            { num: '02', name: 'C / C++ / Python', desc: 'Primary development in C, with C++ and Python used where appropriate for tooling and prototyping.' },
+                            { num: '03', name: 'ARM & Embedded', desc: 'Hands-on work with STM32, ESP32, BeagleBoard, and Raspberry Pi across firmware and board-level bring-up.' },
+                            { num: '04', name: 'Open Source', desc: 'Contributor to open-source embedded and kernel-adjacent projects with exposure to upstream review workflows.' },
+                            { num: '05', name: 'RTOS & Firmware', desc: 'Firmware development using FreeRTOS and bare-metal approaches, including interrupt-driven and timing-sensitive systems.' },
+                            { num: '06', name: 'GDB / Debug', desc: 'Debug workflow based on GDB, OpenOCD, and low-level diagnostics for kernel and embedded software issues.' }
                         ].map((skill, i) => (
                             <div key={i} className="bg-bg p-7 overflow-hidden relative transition-colors duration-200 hover:bg-bg2 group">
                                 <div className="absolute bottom-0 left-0 w-0 h-[2px] bg-amber transition-all duration-300 group-hover:w-full"></div>

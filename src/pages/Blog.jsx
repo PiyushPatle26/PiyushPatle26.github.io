@@ -41,6 +41,28 @@ const articles = {
                 <p>We wrote up the work and it got accepted at SCA/HPC Asia 2026: <a href="https://dl.acm.org/doi/10.1145/3784828.3785406" target="_blank" rel="noreferrer">ACM Digital Library — doi:10.1145/3784828.3785406</a>.</p>
             </>
         )
+    },
+    article2: {
+        tag: 'Embedded Systems · STM32 · Mentoring',
+        date: 'April 2026 · 8 min read',
+        title: 'Mentoring a Handheld Gaming Console Build on STM32',
+        body: (
+            <>
+                <p>I mentored a junior team at VJTI building a handheld gaming console on STM32 using HAL. The project included LCD rendering, joystick and button input, IMU integration, DFPlayer Mini audio output, and game loop timing on constrained hardware.</p>
+
+                <h2>System architecture and constraints</h2>
+                <p>The team had to balance responsiveness, peripheral coordination, and limited compute/memory resources. The design required clear separation between input handling, rendering, audio control, and game-state updates so that changes in one module would not destabilize the rest.</p>
+                <p>We focused on predictable behavior: deterministic update loops, measured peripheral latencies, and careful interrupt usage. On small embedded systems, loose architecture decisions show up quickly as jitter, missed inputs, or unstable frame timing.</p>
+
+                <h2>Mentoring approach</h2>
+                <p>My role was review and technical guidance rather than implementation. I reviewed pull requests, discussed driver boundaries, and helped debug difficult hardware-software interaction issues. The objective was not just to make the console work, but to help the team understand why each design decision mattered.</p>
+                <p>Most mentoring effort went into debugging discipline: reproduce reliably, isolate one subsystem at a time, verify assumptions with instrumentation, and document root cause before applying fixes.</p>
+
+                <h2>What the project delivered</h2>
+                <p>The final build demonstrated a complete and stable handheld prototype: graphics on LCD, responsive controls, motion input, and audio playback with coherent game behavior. It was a good example of practical embedded development under real constraints.</p>
+                <p>This project reinforced an important lesson: engineering maturity comes from making systems understandable and maintainable, not only functional.</p>
+            </>
+        )
     }
 };
 
@@ -89,6 +111,21 @@ export default function Blog() {
                         </div>
                         <div className="font-bebas text-[clamp(32px,4vw,52px)] tracking-[0.04em] leading-[1.05] mb-4">Porting Lustre to a Newer Kernel: What I Actually Learned</div>
                         <div className="text-base leading-[1.9] text-muted max-w-[640px] m-0">What four months at CDAC Pune taught me about VFS internals, LNet, FIDs, ldiskfs, and what it actually means to port a kernel filesystem to a new architecture.</div>
+                        <span className="text-[10px] tracking-[0.25em] uppercase text-amber inline-flex items-center gap-2 mt-5 transition-all duration-200 group-hover:gap-3.5">Read article →</span>
+                    </div>
+                </FadeIn>
+
+                <FadeIn>
+                    <div
+                        onClick={() => setActiveArticle('article2')}
+                        className="border border-border p-14 mb-[2px] bg-bg cursor-none transition-colors duration-300 relative overflow-hidden group hover:bg-bg2"
+                    >
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="text-[9px] tracking-[0.3em] uppercase text-amber">// Embedded Systems · STM32 · Mentoring</span>
+                            <span className="text-[9px] tracking-[0.2em] text-muted">Apr 2026 &nbsp;·&nbsp; 8 min read</span>
+                        </div>
+                        <div className="font-bebas text-[clamp(32px,4vw,52px)] tracking-[0.04em] leading-[1.05] mb-4">Mentoring a Handheld Gaming Console Build on STM32</div>
+                        <div className="text-base leading-[1.9] text-muted max-w-[640px] m-0">How we structured the firmware stack, handled peripheral integration, and debugged timing and hardware interaction issues while mentoring a junior embedded team.</div>
                         <span className="text-[10px] tracking-[0.25em] uppercase text-amber inline-flex items-center gap-2 mt-5 transition-all duration-200 group-hover:gap-3.5">Read article →</span>
                     </div>
                 </FadeIn>
