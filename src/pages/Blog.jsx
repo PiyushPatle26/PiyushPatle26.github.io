@@ -42,6 +42,53 @@ const articles = {
             </>
         )
     },
+    article3: {
+        tag: 'Linux Kernel · Mentorship · Open Source',
+        date: 'August 2026 · 6 min read',
+        title: 'My Journey Through the Linux Kernel Mentorship Program',
+        body: (
+            <>
+                <h2>Why I applied</h2>
+                <p>I had used Linux for years but had never actually contributed to it. The kernel always felt like a closed door to me: a massive codebase, mailing lists full of people who clearly knew what they were doing, and a review culture I had heard was pretty blunt. I kept telling myself I would get into it "someday." The mentorship was me finally forcing that someday to happen.</p>
+                <p>What I wanted out of it was simple. I wanted to stop being intimidated, learn how real kernel development actually works, and get at least a little of my own code into the tree that runs on machines all over the world.</p>
+
+                <h2>What I worked on</h2>
+                <p>During the mentorship I submitted patches across several kernel subsystems, including IIO, ASoC, DeviceTree bindings, RTC, and Kbuild. Nine of my commits have made it into Linus Torvalds' mainline tree.</p>
+                <figure className="my-8">
+                    <img
+                        src="/mainline-commits.png"
+                        alt="cgit log of the mainline Linux kernel filtered by author Piyush Patle, showing nine commits across iio, dt-bindings, kbuild, and ASoC"
+                        className="w-full border border-border"
+                        loading="lazy"
+                    />
+                    <figcaption className="text-[10px] tracking-[0.2em] uppercase text-muted mt-3">My commits in the mainline Linux kernel</figcaption>
+                </figure>
+                <p>My biggest project was adding support for a new sensor chip, the AVIA HX710B, to the IIO subsystem (<a href="https://lore.kernel.org/all/20260603184859.89693-1-piyushpatle228@gmail.com/" target="_blank" rel="noreferrer">the series is here on Lore</a>). Most of the groundwork for it has been accepted and is queued for the next kernel release, and the last couple of patches are still going through review as I write this. Seeing a whole new device get this close to being in the kernel is easily the thing I am proudest of.</p>
+                <p>I also built <a href="https://github.com/PiyushPatle26/PageForge" target="_blank" rel="noreferrer">PageForge</a> while working through the memory and paging concepts I kept running into in the kernel.</p>
+
+                <h2>The part that challenged me</h2>
+                <p>My biggest lesson came from that sensor project, which went through twelve revisions before the bulk of it was accepted.</p>
+                <p>Twelve. When I sent v1, I honestly thought it was almost done. It was not. Every round came back with comments, and in the beginning my instinct was to defend what I had written. That was the wrong instinct. Somewhere around the middle of those revisions something clicked, and I stopped reading review comments as criticism and started reading them as the fastest way to understand the code better than I had on my own. The reviewers were not trying to block me. They were pointing at things I genuinely had not seen yet.</p>
+                <p>Once I made that switch, the whole process got easier. I stopped taking the back-and-forth personally and just tried to come back each time with a cleaner, smaller, clearer version. That change in how I thought about review is the most useful thing I took from the whole program.</p>
+
+                <h2>What I learned</h2>
+                <p>Small, reviewable patches matter. Keeping changes focused makes it much easier for maintainers to understand, review, and eventually merge them. Review is part of development, not a final approval step at the end. And rejection is useful information, not a verdict on you.</p>
+
+                <h2>Thank you</h2>
+                <p>Thank you to my mentor Shuah Khan for the guidance, and to the maintainers and reviewers who spent real time on my patches, especially Jonathan Cameron, along with Andy Shevchenko, Conor Dooley, Krzysztof Kozlowski, David Lechner, and Mark Brown. I learned the most from the reviews that were hardest on me.</p>
+
+                <h2>What's next</h2>
+                <p>The mentorship may be over, but my kernel work isn't. I want to see the HX710B series fully merged, keep contributing to IIO, and slowly take on bigger pieces. The door I was so intimidated by is open now, and I intend to keep walking through it.</p>
+
+                <h2>My contributions</h2>
+                <p>
+                    <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/?qt=author&q=Piyush+Patle" target="_blank" rel="noreferrer">Merged patches (mainline Linux kernel)</a>
+                    {' · '}
+                    <a href="https://lore.kernel.org/all/?q=Piyush%20Patle" target="_blank" rel="noreferrer">All submissions and discussions on Lore</a>
+                </p>
+            </>
+        )
+    },
     article2: {
         tag: 'Embedded Systems · STM32 · Mentoring',
         date: 'April 2026 · 8 min read',
@@ -101,10 +148,25 @@ export default function Blog() {
 
                 <FadeIn>
                     <div
-                        onClick={() => setActiveArticle('article1')}
+                        onClick={() => setActiveArticle('article3')}
                         className="border border-border p-14 mb-[2px] bg-bg cursor-none transition-colors duration-300 relative overflow-hidden group hover:bg-bg2"
                     >
                         <div className="absolute top-5 right-6 text-[9px] tracking-[0.4em] text-amber uppercase">FEATURED</div>
+                        <div className="flex items-center gap-3 mb-3">
+                            <span className="text-[9px] tracking-[0.3em] uppercase text-amber">// Linux Kernel · Mentorship · Open Source</span>
+                            <span className="text-[9px] tracking-[0.2em] text-muted">Aug 2026 &nbsp;·&nbsp; 6 min read</span>
+                        </div>
+                        <div className="font-bebas text-[clamp(32px,4vw,52px)] tracking-[0.04em] leading-[1.05] mb-4">My Journey Through the Linux Kernel Mentorship Program</div>
+                        <div className="text-base leading-[1.9] text-muted max-w-[640px] m-0">Nine commits in mainline, twelve revisions on one patch series, and what the Linux Kernel Mentorship Program taught me about reading review comments the right way.</div>
+                        <span className="text-[10px] tracking-[0.25em] uppercase text-amber inline-flex items-center gap-2 mt-5 transition-all duration-200 group-hover:gap-3.5">Read article →</span>
+                    </div>
+                </FadeIn>
+
+                <FadeIn>
+                    <div
+                        onClick={() => setActiveArticle('article1')}
+                        className="border border-border p-14 mb-[2px] bg-bg cursor-none transition-colors duration-300 relative overflow-hidden group hover:bg-bg2"
+                    >
                         <div className="flex items-center gap-3 mb-3">
                             <span className="text-[9px] tracking-[0.3em] uppercase text-amber">// Research · HPC · Linux Kernel</span>
                             <span className="text-[9px] tracking-[0.2em] text-muted">Jan 2026 &nbsp;·&nbsp; 12 min read</span>
@@ -149,7 +211,7 @@ export default function Blog() {
                 >
                     [ close ]
                 </button>
-                <div className="max-w-[720px] mx-auto pt-[100px] px-12 pb-[120px] max-md:pt-20 max-md:px-6">
+                <div className="max-w-[1040px] mx-auto pt-[100px] px-12 pb-[120px] max-md:pt-20 max-md:px-6">
                     {activeArticle && (
                         <>
                             <div className="text-[10px] tracking-[0.35em] uppercase text-amber mb-5 m-0">// {articles[activeArticle].tag}</div>
