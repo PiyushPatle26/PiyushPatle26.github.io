@@ -17,7 +17,7 @@
                 });
                 window.history.replaceState(null, null,
                     l.pathname.slice(0, -1) + decoded[0] +
-                    (decoded[1] ? '&' + decoded[1].slice(1) : '') +
+                    (decoded.length > 1 ? '?' + decoded.slice(1).join('&') : '') +
                     l.hash
                 );
             }

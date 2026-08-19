@@ -6,7 +6,8 @@
     <script>
       // GitHub Pages SPA redirect
       // When a 404 occurs, redirect to index.html with the path encoded as a query param
-      var segmentCount = 1; // 1 = repo sub-path (portfolio_website)
+      // 0 = site served from the domain root (user/org Pages site)
+      var segmentCount = 0;
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
