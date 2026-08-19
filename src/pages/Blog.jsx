@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import FadeIn from '../components/FadeIn';
 
 const articles = {
-    article1: {
+    'cdac-lustre': {
         tag: 'Research · HPC · Linux Kernel',
         date: 'June 2025 · 15 min read',
         title: 'Porting Lustre to a Newer Kernel: What I Actually Learned',
@@ -41,7 +42,7 @@ const articles = {
             </>
         )
     },
-    article3: {
+    'lkmp-2026': {
         tag: 'Linux Kernel · Mentorship · Open Source',
         date: 'August 2026 · 6 min read',
         title: 'My Journey Through the Linux Kernel Mentorship Program',
@@ -88,7 +89,7 @@ const articles = {
             </>
         )
     },
-    article2: {
+    'handheld-gaming-console': {
         tag: 'Embedded Systems · STM32 · Mentoring',
         date: 'April 2026 · 8 min read',
         title: 'Mentoring a Handheld Gaming Console Build on STM32',
@@ -113,15 +114,21 @@ const articles = {
 };
 
 export default function Blog() {
-    const [activeArticle, setActiveArticle] = useState(null);
+    const { slug } = useParams();
+    const navigate = useNavigate();
+    const overlayRef = useRef(null);
+    const activeArticle = slug && articles[slug] ? slug : null;
+
+    const openArticle = (id) => navigate(`/blog/${id}`);
+    const closeArticle = () => navigate('/blog');
 
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.key === 'Escape') setActiveArticle(null);
+            if (e.key === 'Escape') closeArticle();
         };
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, []);
+    });
 
     useEffect(() => {
         if (activeArticle) {
@@ -129,6 +136,15 @@ export default function Blog() {
         } else {
             document.body.style.overflow = '';
         }
+    }, [activeArticle]);
+
+    // an unknown slug is not an article, so fall back to the listing
+    useEffect(() => {
+        if (slug && !articles[slug]) navigate('/blog', { replace: true });
+    }, [slug, navigate]);
+
+    useEffect(() => {
+        if (overlayRef.current) overlayRef.current.scrollTop = 0;
     }, [activeArticle]);
 
     return (
@@ -147,7 +163,7 @@ export default function Blog() {
 
                 <FadeIn>
                     <div
-                        onClick={() => setActiveArticle('article3')}
+                        onClick={() => openArticle('lkmp-2026')}
                         className="border border-border p-14 mb-[2px] bg-bg cursor-none transition-colors duration-300 relative overflow-hidden group hover:bg-bg2"
                     >
                         <div className="absolute top-5 right-6 text-[9px] tracking-[0.4em] text-amber uppercase">FEATURED</div>
@@ -163,7 +179,7 @@ export default function Blog() {
 
                 <FadeIn>
                     <div
-                        onClick={() => setActiveArticle('article1')}
+                        onClick={() => openArticle('cdac-lustre')}
                         className="border border-border p-14 mb-[2px] bg-bg cursor-none transition-colors duration-300 relative overflow-hidden group hover:bg-bg2"
                     >
                         <div className="flex items-center gap-3 mb-3">
@@ -178,7 +194,7 @@ export default function Blog() {
 
                 <FadeIn>
                     <div
-                        onClick={() => setActiveArticle('article2')}
+                        onClick={() => openArticle('handheld-gaming-console')}
                         className="border border-border p-14 mb-[2px] bg-bg cursor-none transition-colors duration-300 relative overflow-hidden group hover:bg-bg2"
                     >
                         <div className="flex items-center gap-3 mb-3">
@@ -196,15 +212,16 @@ export default function Blog() {
 
             {/* ARTICLE OVERLAY */}
             <div
+                ref={overlayRef}
                 className={`fixed inset-0 bg-[rgba(10,10,8,0.96)] z-[5000] overflow-y-auto backdrop-blur-[4px] transition-all duration-400
           ${activeArticle ? 'opacity-100 visible' : 'opacity-0 invisible'}
         `}
                 onClick={(e) => {
-                    if (e.target === e.currentTarget) setActiveArticle(null);
+                    if (e.target === e.currentTarget) closeArticle();
                 }}
             >
                 <button
-                    onClick={() => setActiveArticle(null)}
+                    onClick={closeArticle}
                     className="fixed top-7 right-12 z-[5001] text-[10px] tracking-[0.3em] uppercase text-muted bg-transparent border border-border py-2 px-4 cursor-none transition-all duration-200 hover:text-amber hover:border-amber max-md:right-6"
                 >
                     [ close ]
