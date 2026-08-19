@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 export default function Nav() {
     const [scrolled, setScrolled] = useState(false);
@@ -31,8 +31,12 @@ export default function Nav() {
         <nav className={`fixed top-0 left-0 right-0 z-[1000] px-12 py-6 flex items-center justify-between border-b transition-colors duration-300 max-md:px-6 max-md:py-5
       ${scrolled ? 'border-border bg-[rgba(10,10,8,0.88)] backdrop-blur-[12px]' : 'border-transparent bg-transparent'}
     `}>
-            <NavLink to="/" className="font-bebas text-[22px] tracking-[0.1em] text-amber no-underline">
-                PP
+            <NavLink to="/" className="no-underline flex items-center">
+                <img
+                    src={`${import.meta.env.BASE_URL}logo.png`}
+                    alt="Piyush Patle"
+                    className="h-6 w-auto transition-opacity duration-200 opacity-90 hover:opacity-100"
+                />
             </NavLink>
             <ul className="flex gap-9 list-none m-0 p-0">
                 <li>
@@ -70,18 +74,6 @@ export default function Nav() {
                     >
                         Blog
                     </NavLink>
-                </li>
-                <li>
-                    <Link
-                        to="/#contact"
-                        className={`
-              text-[11px] tracking-[0.25em] uppercase no-underline transition-colors duration-200 relative pb-1 text-muted
-              before:absolute before:bottom-[-4px] before:left-0 before:h-[1px] before:bg-amber before:transition-all before:duration-200 before:w-0
-              hover:text-text hover:before:w-full
-            `}
-                    >
-                        Contact
-                    </Link>
                 </li>
             </ul>
         </nav>

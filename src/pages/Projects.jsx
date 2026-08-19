@@ -1,19 +1,36 @@
 import { useState } from 'react';
 import FadeIn from '../components/FadeIn';
-import Footer from '../components/Footer';
 
 const projects = [
     {
-        id: '01',
+        id: 'pageforge',
+        categories: ['kernel', 'opensource'],
+        catText: '// Linux Kernel · Memory Management · C',
+        badge: 'Open Source',
+        title: 'PageForge: Linux Memory Management From Scratch',
+        summary: 'A ground-up implementation of the Linux kernel memory management stack in C, with no libc and no stdlib. Raw mmap syscalls, a buddy page allocator, a slab object cache, and a kmalloc/kfree general allocator, validated with 32 Unity unit tests and runnable under QEMU.',
+        body: (
+            <>
+                <p className="m-0 mb-[18px]">Reading about buddy allocators and slab caches only gets you so far. PageForge is what happened when I decided to build the whole stack myself instead: five layers, each one hand-written in C11 with zero libc dependency. A two-level page directory simulating x86 VA→PA translation, raw <code>mmap</code>/<code>munmap</code> through inline syscalls, a buddy allocator managing a 4 MB arena across orders 0 to 10 with XOR-buddy coalescing, eight fixed-size slab caches from 8 B to 1 KB with magic-number guards, and a <strong className="text-text font-normal">kmalloc</strong>/<strong className="text-text font-normal">kfree</strong>/<strong className="text-text font-normal">calloc</strong>/<strong className="text-text font-normal">realloc</strong> layer on top that routes small requests to the slab and large ones to the buddy.</p>
+                <p className="m-0">Everything is covered by 32 Unity unit tests, with CI running build, tests, QEMU user-mode emulation, and valgrind on every push. I wrote up the concepts as I went in an accompanying deep-dive on Linux memory management. This is the project that made the MM code I kept running into in the kernel actually legible to me.</p>
+            </>
+        ),
+        tags: ['C', 'C11', 'Memory Management', 'Buddy Allocator', 'Slab', 'Paging', 'QEMU', 'Unity'],
+        links: [
+            { text: '↗ Source Code (GitHub)', href: 'https://github.com/PiyushPatle26/PageForge', type: 'primary' }
+        ]
+    },
+    {
+        id: 'lustre',
         categories: ['kernel', 'research', 'opensource'],
         catText: '// Linux Kernel · Research · CDAC Pune',
         badge: 'ACM Published',
-        title: 'Lustre on Linux 6.12 — Undergrad Research Intern',
+        title: 'Lustre on Linux 6.12: Undergrad Research Intern',
         summary: 'Four months at CDAC Pune inside VFS and ext4, porting the Lustre parallel filesystem to Linux 6.12 with RISC-V cluster support. Fixed real bugs, shipped production patches, co-authored a paper that got into HPC Asia 2026 and the ACM Digital Library.',
         body: (
             <>
-                <p className="m-0 mb-[18px]">Lustre is a parallel filesystem used across large HPC clusters. It hooks deep into the Linux kernel — VFS layer, block I/O, network stack. When Linux 6.12 changed internal VFS interfaces, Lustre broke, and I spent four months figuring out exactly how and why.</p>
-                <p className="m-0">Most of the work was reading both sides — the upstream kernel commits explaining <em>why</em> the interfaces changed, and the Lustre code that had made assumptions about how they'd stay. Fixed multiple breakages across VFS and ext4, tested everything on a RISC-V cluster, and contributed changes back upstream. We also wrote up the whole experience as a paper, submitted it to SCA/HPC Asia 2026, and it got accepted. Published in the <strong className="text-text font-normal">ACM Digital Library</strong>.</p>
+                <p className="m-0 mb-[18px]">Lustre is a parallel filesystem used across large HPC clusters. It hooks deep into the Linux kernel: VFS layer, block I/O, network stack. When Linux 6.12 changed internal VFS interfaces, Lustre broke, and I spent four months figuring out exactly how and why.</p>
+                <p className="m-0">Most of the work was reading both sides: the upstream kernel commits explaining <em>why</em> the interfaces changed, and the Lustre code that had made assumptions about how they'd stay. Fixed multiple breakages across VFS and ext4, tested everything on a RISC-V cluster, and contributed changes back upstream. We also wrote up the whole experience as a paper, submitted it to SCA/HPC Asia 2026, and it got accepted. Published in the <strong className="text-text font-normal">ACM Digital Library</strong>.</p>
             </>
         ),
         tags: ['C', 'Linux Kernel', 'VFS', 'ext4', 'RISC-V', 'Lustre', 'HPC', 'GDB'],
@@ -23,16 +40,17 @@ const projects = [
             { text: '↗ Letter of Recommendation', href: 'https://drive.google.com/file/d/13VFPeCVi6Ac6CBrjaPDgRrrgTzjTFqiF/view?usp=drive_link', type: 'ghost' }
         ]
     },
+    /* Commented out for now. ALSA codec driver for BeagleBoard BELA.
     {
-        id: '03',
+        id: 'alsa-bela',
         categories: ['kernel', 'opensource'],
         catText: '// Linux Kernel · ALSA · BeagleBoard.org',
-        badge: 'Ongoing — Open Source',
-        title: 'ALSA Codec Driver — BeagleBoard BELA',
-        summary: "Adding a codec driver for BeagleBoard's BELA audio platform to the Linux ALSA subsystem — currently ongoing project. Upstream kernel driver work: ASoC framework, DAPM widgets, device tree bindings, audio codec integration.",
+        badge: 'Ongoing, Open Source',
+        title: 'ALSA Codec Driver for BeagleBoard BELA',
+        summary: "Adding a codec driver for BeagleBoard's BELA audio platform to the Linux ALSA subsystem, currently an ongoing project. Upstream kernel driver work: ASoC framework, DAPM widgets, device tree bindings, audio codec integration.",
         body: (
             <>
-                <p className="m-0 mb-[18px]">BeagleBoard's BELA is a real-time audio platform used in music and research. It needed a proper upstream Linux codec driver — something written to the quality bar the kernel mailing list actually accepts. That meant working through the ASoC framework: codec registration, DAPM power widget graphs, mixer controls, and device tree bindings for hardware description.</p>
+                <p className="m-0 mb-[18px]">BeagleBoard's BELA is a real-time audio platform used in music and research. It needed a proper upstream Linux codec driver, something written to the quality bar the kernel mailing list actually accepts. That meant working through the ASoC framework: codec registration, DAPM power widget graphs, mixer controls, and device tree bindings for hardware description.</p>
                 <p className="m-0">Doing this properly means reading other accepted drivers, understanding the subsystem conventions, and writing code that won't get dismissed on first review. Still in progress, but it's taught me more about the right way to write kernel code than almost anything else.</p>
             </>
         ),
@@ -41,16 +59,17 @@ const projects = [
             { text: '↗ Source Code (GitHub)', href: 'https://github.com/PiyushPatle26/ALSA-Linux-Driver-for-BELA', type: 'primary' }
         ]
     },
+    */
     {
-        id: '05',
+        id: 'sih-2025',
         categories: ['arm'],
         catText: '// Computer Vision · ML · SIH 2025',
-        title: 'Smart India Hackathon 2025 — Sand Grain Analysis',
+        title: 'Smart India Hackathon 2025: Sand Grain Analysis',
         summary: 'A sand grain characterisation system built for SIH 2025. Given a photo of a sand sample with an ArUco calibration marker, it detects individual grains, measures sizes in mm, computes D10/D50/D90 and sedimentological statistics, predicts beach type via ML, and presents results through a React web interface.',
         body: (
             <>
-                <p className="m-0 mb-[18px]">The system has three subsystems working end-to-end. The <strong className="text-text font-normal">image analysis pipeline</strong> detects individual grains using the ArUco marker for scale calibration, measures grain dimensions in millimetres, and computes sedimentological statistics — D10, D50, D90, coefficient of uniformity (Cu), and coefficient of curvature (Cc).</p>
-                <p className="m-0 mb-[18px]">The <strong className="text-text font-normal">ML pipeline</strong> takes the same image and predicts beach type (fine / medium / coarse) and median grain size (D50) from a trained model. The <strong className="text-text font-normal">React web frontend</strong> ties it together — upload an image, get a full sedimentological report back. Real problem statement, real government client, working demo under pressure.
+                <p className="m-0 mb-[18px]">The system has three subsystems working end-to-end. The <strong className="text-text font-normal">image analysis pipeline</strong> detects individual grains using the ArUco marker for scale calibration, measures grain dimensions in millimetres, and computes sedimentological statistics: D10, D50, D90, coefficient of uniformity (Cu), and coefficient of curvature (Cc).</p>
+                <p className="m-0 mb-[18px]">The <strong className="text-text font-normal">ML pipeline</strong> takes the same image and predicts beach type (fine / medium / coarse) and median grain size (D50) from a trained model. The <strong className="text-text font-normal">React web frontend</strong> ties it together: upload an image, get a full sedimentological report back. Real problem statement, real government client, working demo under pressure.
                 </p>
             </>
         ),
@@ -60,14 +79,14 @@ const projects = [
         ]
     },
     {
-        id: '07',
+        id: 'counter-clock',
         categories: ['arm'],
         catText: '// ESP32 · Embedded · Firmware',
         title: 'Counter Clock',
         summary: 'A unique mechanical digital clock using 28 micro servos to physically flip 7-segment display segments, built on ESP32 with the ESP-IDF framework. Precise servo PWM control, accurate timekeeping, and optimised power management for silent operation.',
         body: (
             <>
-                <p className="m-0 mb-[18px]">Each of the 4 digits is a mechanical 7-segment display made from 7 micro servos — 28 total — that physically flip to form digits. The result is a hybrid digital-analog visual effect that's hard to describe and oddly satisfying to watch. Built on ESP32 using the ESP-IDF framework, not Arduino.</p>
+                <p className="m-0 mb-[18px]">Each of the 4 digits is a mechanical 7-segment display made from 7 micro servos, 28 in total, that physically flip to form digits. The result is a hybrid digital-analog visual effect that's hard to describe and oddly satisfying to watch. Built on ESP32 using the ESP-IDF framework, not Arduino.</p>
                 <p className="m-0">The interesting engineering is in the servo control: 28 servos all need precise, coordinated PWM signals timed to flip digits without mechanical noise or jitter. Added sleep modes between updates for energy efficiency. Small project, clear constraints, required thinking carefully about timing and resource management.</p>
             </>
         ),
@@ -127,7 +146,7 @@ export default function Projects() {
                             <div className="py-11 px-12 grid grid-cols-[1fr_auto] gap-10 items-start max-md:grid-cols-1 max-md:py-6 max-md:px-6">
                                 <div>
                                     <div className="flex items-center gap-4 mb-4 flex-wrap">
-                                        <span className="font-bebas text-[18px] text-border leading-none">{p.id}</span>
+                                        <span className="font-bebas text-[18px] text-border leading-none">{String(index + 1).padStart(2, '0')}</span>
                                         <span className="text-[10px] tracking-[0.3em] uppercase text-amber">{p.catText}</span>
                                         {p.badge && (
                                             <span className="text-[9px] tracking-[0.2em] uppercase py-[3px] px-2.5 border border-amber-dim text-amber">{p.badge}</span>
@@ -194,7 +213,6 @@ export default function Projects() {
                 </FadeIn>
             </div>
 
-            <Footer />
         </>
     );
 }

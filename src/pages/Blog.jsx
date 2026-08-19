@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import FadeIn from '../components/FadeIn';
-import Footer from '../components/Footer';
 
 const articles = {
     article1: {
@@ -9,36 +8,36 @@ const articles = {
         title: 'Porting Lustre to a Newer Kernel: What I Actually Learned',
         body: (
             <>
-                <p>Two months at CDAC Pune working on Lustre. The task was straightforward on paper: get Lustre building and running on a newer kernel, test it on a RISC-V cluster, and understand it well enough to write a paper about it. This is what I actually learned — not a list of patches, but what the work taught me about how the Linux kernel and filesystems fit together.</p>
+                <p>Two months at CDAC Pune working on Lustre. The task was straightforward on paper: get Lustre building and running on a newer kernel, test it on a RISC-V cluster, and understand it well enough to write a paper about it. This is what I actually learned. Not a list of patches, but what the work taught me about how the Linux kernel and filesystems fit together.</p>
 
                 <h2>What Lustre is and why it's complicated</h2>
                 <p>Lustre is a parallel distributed filesystem used in HPC clusters. Unlike NFS (one server you talk to), Lustre separates metadata and data across distinct server types. The <strong>MDS/MDT</strong> (Metadata Server / Target) handles filenames, permissions, and layout maps. The <strong>OSS/OST</strong> (Object Storage Server / Target) holds actual file data, striped across multiple targets in parallel. Clients coordinate with both.</p>
-                <p>What makes this interesting from a kernel perspective: the entire client stack is kernel modules. No FUSE, no userspace daemon. When you <code>mount -t lustre</code>, you're loading <code>lustre.ko</code>, <code>lnet.ko</code>, <code>obdclass.ko</code>, <code>fid.ko</code>, and others — all living inside the kernel, talking directly to the VFS.</p>
+                <p>What makes this interesting from a kernel perspective: the entire client stack is kernel modules. No FUSE, no userspace daemon. When you <code>mount -t lustre</code>, you're loading <code>lustre.ko</code>, <code>lnet.ko</code>, <code>obdclass.ko</code>, <code>fid.ko</code>, and others, all living inside the kernel, talking directly to the VFS.</p>
 
-                <h2>The VFS layer — where everything connects</h2>
-                <p>Understanding Lustre meant understanding VFS first. The Virtual File System is the abstraction layer that presents a uniform interface to userspace regardless of what's underneath. When you call <code>open()</code>, the kernel doesn't care if it's ext4 or Lustre — the syscall hits VFS, VFS routes based on mount point, and the filesystem-specific module handles it.</p>
-                <p>The key structures are <code>inode_operations</code>, <code>file_operations</code>, and <code>super_operations</code>. Every filesystem implements these. They're the contract between your filesystem and the kernel. When the kernel changes these interfaces between versions — which it does, without much fanfare — every filesystem that implements them needs to adapt. Lustre depended on several of these in ways that broke with newer kernels. Finding those breakages and understanding why they happened was most of the work.</p>
+                <h2>The VFS layer: where everything connects</h2>
+                <p>Understanding Lustre meant understanding VFS first. The Virtual File System is the abstraction layer that presents a uniform interface to userspace regardless of what's underneath. When you call <code>open()</code>, the kernel doesn't care if it's ext4 or Lustre. The syscall hits VFS, VFS routes based on mount point, and the filesystem-specific module handles it.</p>
+                <p>The key structures are <code>inode_operations</code>, <code>file_operations</code>, and <code>super_operations</code>. Every filesystem implements these. They're the contract between your filesystem and the kernel. When the kernel changes these interfaces between versions, which it does without much fanfare, every filesystem that implements them needs to adapt. Lustre depended on several of these in ways that broke with newer kernels. Finding those breakages and understanding why they happened was most of the work.</p>
                 <blockquote>The interesting thing about VFS interface changes is that they're rarely documented in one place. You find them by reading the commits that changed them, understanding the rationale, and tracing what broke downstream. This is slow. It's also the correct approach.</blockquote>
 
-                <h2>LNet — why Lustre has its own networking stack</h2>
-                <p>One thing that surprised me early on was <code>lnet.ko</code>. Lustre doesn't use the Linux TCP/IP stack for inter-node communication — it has its own custom networking layer that supports InfiniBand, Omni-Path, and Ethernet. This allows RDMA (Remote Direct Memory Access): the NIC transfers data directly into application memory without CPU involvement.</p>
-                <p>The alternative approach, used by BeeGFS's optional FUSE client, is simpler to develop — a crash in the daemon doesn't take the kernel with it — but every I/O operation crosses the kernel-userspace boundary twice. For HPC workloads doing large sequential I/O across many nodes, that overhead is significant. Lustre's all-kernel design trades development complexity for throughput. Learning both approaches side by side made the tradeoffs concrete.</p>
+                <h2>LNet: why Lustre has its own networking stack</h2>
+                <p>One thing that surprised me early on was <code>lnet.ko</code>. Lustre doesn't use the Linux TCP/IP stack for inter-node communication. It has its own custom networking layer that supports InfiniBand, Omni-Path, and Ethernet. This allows RDMA (Remote Direct Memory Access): the NIC transfers data directly into application memory without CPU involvement.</p>
+                <p>The alternative approach, used by BeeGFS's optional FUSE client, is simpler to develop, since a crash in the daemon doesn't take the kernel with it, but every I/O operation crosses the kernel-userspace boundary twice. For HPC workloads doing large sequential I/O across many nodes, that overhead is significant. Lustre's all-kernel design trades development complexity for throughput. Learning both approaches side by side made the tradeoffs concrete.</p>
 
-                <h2>FIDs — how Lustre tracks files at scale</h2>
-                <p>Lustre doesn't track files by path. It uses <strong>File Identifiers (FIDs)</strong>, managed by <code>fid.ko</code>. A FID is a 128-bit globally unique identifier: a 64-bit sequence number, a 32-bit object ID within that sequence, and a 32-bit version. Once you open a file and get its FID from the MDS, all subsequent operations use the FID directly — no path resolution, no directory walks.</p>
-                <p>This matters at scale. A cluster with billions of files can't afford to re-resolve long paths on every access. FIDs make metadata operations cheap. Underneath, <code>obdclass.ko</code> provides an abstraction layer that gives clients and servers a common interface — everything is an object you send commands to, whether it's an MDS or an OSS. This is what allows Lustre's modularity: components can be upgraded without rewriting core communication logic.</p>
+                <h2>FIDs: how Lustre tracks files at scale</h2>
+                <p>Lustre doesn't track files by path. It uses <strong>File Identifiers (FIDs)</strong>, managed by <code>fid.ko</code>. A FID is a 128-bit globally unique identifier: a 64-bit sequence number, a 32-bit object ID within that sequence, and a 32-bit version. Once you open a file and get its FID from the MDS, all subsequent operations use the FID directly, with no path resolution and no directory walks.</p>
+                <p>This matters at scale. A cluster with billions of files can't afford to re-resolve long paths on every access. FIDs make metadata operations cheap. Underneath, <code>obdclass.ko</code> provides an abstraction layer that gives clients and servers a common interface, where everything is an object you send commands to, whether it's an MDS or an OSS. This is what allows Lustre's modularity: components can be upgraded without rewriting core communication logic.</p>
 
                 <h2>The ldiskfs backend and what the porting involved</h2>
-                <p>Lustre's server-side storage backend is <strong>ldiskfs</strong> — a modified fork of ext4. Building Lustre with ldiskfs support requires the ext4 source from the kernel tree, a custom e2fsprogs build from Whamcloud, and the right configure flags (<code>--enable-ldiskfs --with-zfs=no</code>). The build system expects things in specific places, and the errors when they aren't there aren't always clear.</p>
+                <p>Lustre's server-side storage backend is <strong>ldiskfs</strong>, a modified fork of ext4. Building Lustre with ldiskfs support requires the ext4 source from the kernel tree, a custom e2fsprogs build from Whamcloud, and the right configure flags (<code>--enable-ldiskfs --with-zfs=no</code>). The build system expects things in specific places, and the errors when they aren't there aren't always clear.</p>
                 <p>The porting involved cherry-picking compatibility patches from Whamcloud's Gerrit for the target kernel version: changes to journal commit callbacks, VFS interface adaptations, build system fixes. Each patch addresses a specific incompatibility between Lustre's assumptions and what the newer kernel provides. For each one: find the kernel commit that changed the interface, read why it changed, then understand how Lustre needs to adapt. The "just make the compiler happy" approach gives you modules that load and silently misbehave. Doing it properly means understanding both sides of the interface.</p>
 
                 <h2>Testing on the RISC-V cluster</h2>
-                <p>Once we had Lustre building and loading, we tested it on a RISC-V cluster — separate MDS and OSS nodes, client machines mounting and running workloads. The performance testing used synthetic benchmarks and traces representative of HPC application patterns: large sequential reads and writes, metadata-heavy operations, mixed workloads.</p>
-                <p>RISC-V isn't x86 — there are architectural differences in how the kernel handles certain operations, and validating that a complex filesystem like Lustre runs stably on a different ISA means checking that the assumptions baked into the code hold. Data integrity testing, checking performance numbers, verifying that parallel I/O across OSTs worked correctly. The outcome was that Lustre ran on the cluster and performed acceptably — which is the point. Getting there was the learning.</p>
+                <p>Once we had Lustre building and loading, we tested it on a RISC-V cluster: separate MDS and OSS nodes, client machines mounting and running workloads. The performance testing used synthetic benchmarks and traces representative of HPC application patterns: large sequential reads and writes, metadata-heavy operations, mixed workloads.</p>
+                <p>RISC-V isn't x86. There are architectural differences in how the kernel handles certain operations, and validating that a complex filesystem like Lustre runs stably on a different ISA means checking that the assumptions baked into the code hold. Data integrity testing, checking performance numbers, verifying that parallel I/O across OSTs worked correctly. The outcome was that Lustre ran on the cluster and performed acceptably, which is the point. Getting there was the learning.</p>
 
                 <h2>What I actually took away</h2>
-                <p>The most valuable thing wasn't any particular patch. It was learning to navigate a large kernel subsystem I'd never seen before: following code paths across multiple modules, reading VFS and filesystem documentation, understanding why an interface exists before trying to use it. The kernel mailing lists and Whamcloud's Gerrit are genuinely useful — most of the hard answers are in commit messages, if you know to look there.</p>
-                <p>We wrote up the work and it got accepted at SCA/HPC Asia 2026: <a href="https://dl.acm.org/doi/10.1145/3784828.3785406" target="_blank" rel="noreferrer">ACM Digital Library — doi:10.1145/3784828.3785406</a>.</p>
+                <p>The most valuable thing wasn't any particular patch. It was learning to navigate a large kernel subsystem I'd never seen before: following code paths across multiple modules, reading VFS and filesystem documentation, understanding why an interface exists before trying to use it. The kernel mailing lists and Whamcloud's Gerrit are genuinely useful. Most of the hard answers are in commit messages, if you know to look there.</p>
+                <p>We wrote up the work and it got accepted at SCA/HPC Asia 2026: <a href="https://dl.acm.org/doi/10.1145/3784828.3785406" target="_blank" rel="noreferrer">ACM Digital Library, doi:10.1145/3784828.3785406</a>.</p>
             </>
         )
     },
@@ -194,7 +193,6 @@ export default function Blog() {
 
             </div>
 
-            <Footer />
 
             {/* ARTICLE OVERLAY */}
             <div
@@ -216,7 +214,7 @@ export default function Blog() {
                         <>
                             <div className="text-[10px] tracking-[0.35em] uppercase text-amber mb-5 m-0">// {articles[activeArticle].tag}</div>
                             <div className="font-bebas text-[clamp(40px,6vw,80px)] leading-[0.92] tracking-[0.03em] mb-8">{articles[activeArticle].title}</div>
-                            <div className="text-[10px] tracking-[0.2em] text-muted uppercase mb-12 pb-8 border-b border-border m-0">{articles[activeArticle].date} — Piyush Patle</div>
+                            <div className="text-[10px] tracking-[0.2em] text-muted uppercase mb-12 pb-8 border-b border-border m-0">{articles[activeArticle].date} · Piyush Patle</div>
                             <div
                                 className="text-sm leading-[2.1] text-muted blog-content"
                             >

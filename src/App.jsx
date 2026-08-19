@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect } from 'react';
 import Cursor from './components/Cursor';
 import Loader from './components/Loader';
-import MusicPlayer from './components/MusicPlayer';
 import Nav from './components/Nav';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
@@ -33,7 +32,6 @@ function App() {
             <ScrollToHash />
             <Loader />
             <Cursor />
-            <MusicPlayer />
             <Nav />
             <div id="page-content" className="min-h-screen">
                 <Routes>
