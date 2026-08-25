@@ -5,17 +5,18 @@ const projects = [
     {
         id: 'pageforge',
         categories: ['kernel', 'opensource'],
-        catText: '// Linux Kernel · Memory Management · C',
+        catText: '// Linux Kernel · Memory Management · RISC-V',
         badge: 'Open Source',
         title: 'PageForge: Linux Memory Management From Scratch',
-        summary: 'A ground-up implementation of the Linux kernel memory management stack in C, with no libc and no stdlib. Raw mmap syscalls, a buddy page allocator, a slab object cache, and a kmalloc/kfree general allocator, validated with 32 Unity unit tests and runnable under QEMU.',
+        summary: 'A ground-up model of the Linux kernel memory management stack in C11, with no libc and no stdlib. Five layers over raw mmap: a RISC-V Sv39 page-table walker, a buddy page allocator, a slab object cache, and a kmalloc/kfree general allocator. Cross-compiled for rv64 and validated by 49 Unity tests under qemu-riscv64 on every commit.',
         body: (
             <>
-                <p className="m-0 mb-[18px]">Reading about buddy allocators and slab caches only gets you so far. PageForge is what happened when I decided to build the whole stack myself instead: five layers, each one hand-written in C11 with zero libc dependency. A two-level page directory simulating x86 VA→PA translation, raw <code>mmap</code>/<code>munmap</code> through inline syscalls, a buddy allocator managing a 4 MB arena across orders 0 to 10 with XOR-buddy coalescing, eight fixed-size slab caches from 8 B to 1 KB with magic-number guards, and a <strong className="text-text font-normal">kmalloc</strong>/<strong className="text-text font-normal">kfree</strong>/<strong className="text-text font-normal">calloc</strong>/<strong className="text-text font-normal">realloc</strong> layer on top that routes small requests to the slab and large ones to the buddy.</p>
-                <p className="m-0">Everything is covered by 32 Unity unit tests, with CI running build, tests, QEMU user-mode emulation, and valgrind on every push. I wrote up the concepts as I went in an accompanying deep-dive on Linux memory management. This is the project that made the MM code I kept running into in the kernel actually legible to me.</p>
+                <p className="m-0 mb-[18px]">Reading about buddy allocators and slab caches only gets you so far. PageForge is what happened when I decided to build the whole stack myself instead: roughly 1,200 lines of C11 across five layers, each one self-contained, none of them touching libc. At the bottom is a software <strong className="text-text font-normal">RISC-V Sv39</strong> page walker, splitting a 39-bit virtual address into three 9-bit VPNs and a 12-bit offset, walking 64-bit PTEs, and keeping translation separate from the permission and privilege checks that decide which fault an access would actually take. Above it, raw <code>mmap</code>/<code>munmap</code> through inline syscalls, a buddy allocator managing a 1024-page 4 MB arena across orders 0 to 10 with XOR-buddy coalescing, eight fixed-size slab caches from 8 B to 1 KB that store their free lists inside the freed objects, and a <strong className="text-text font-normal">kmalloc</strong>/<strong className="text-text font-normal">kfree</strong>/<strong className="text-text font-normal">calloc</strong>/<strong className="text-text font-normal">realloc</strong> layer that routes small requests to the slab and large ones to the buddy.</p>
+                <p className="m-0 mb-[18px]">Allocation headers carry magic numbers so corruption shows up immediately, and freed memory is poisoned with <code>0xDEADDEAD</code> to expose use-after-free. It stops short of the real thing on purpose: no <code>vm_area_struct</code> or VMAs, a flat memory model with no zones, and no <code>sfence.vma</code>, since a software walk has no TLB to flush.</p>
+                <p className="m-0">49 Unity tests cover the buddy, slab, general allocator, paging, and access-control paths. CI cross-builds with <code>riscv64-linux-gnu-gcc</code>, runs the suite under <code>qemu-riscv64</code> user-mode emulation, and valgrinds the native build on every push. I wrote the concepts up in markdown guides alongside the code as I went. This is the project that made the MM code I kept running into in the kernel actually legible to me.</p>
             </>
         ),
-        tags: ['C', 'C11', 'Memory Management', 'Buddy Allocator', 'Slab', 'Paging', 'QEMU', 'Unity'],
+        tags: ['C11', 'Memory Management', 'RISC-V', 'Sv39 Paging', 'Buddy Allocator', 'Slab', 'QEMU', 'Unity', 'GitHub Actions'],
         links: [
             { text: '↗ Source Code (GitHub)', href: 'https://github.com/PiyushPatle26/PageForge', type: 'primary' }
         ]
